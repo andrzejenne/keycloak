@@ -456,6 +456,10 @@
                 + '&response_mode=' + encodeURIComponent(kc.responseMode)
                 + '&response_type=' + encodeURIComponent(kc.responseType)
                 + '&scope=' + encodeURIComponent(scope);
+            if (kc.clientSecret) {
+                url += "&client_secret=" + encodeURIComponent(kc.clientSecret);
+            }
+
             if (useNonce) {
                 url = url + '&nonce=' + encodeURIComponent(nonce);
             }
@@ -655,6 +659,9 @@
                         req.withCredentials = true;
 
                         params += '&client_id=' + encodeURIComponent(kc.clientId);
+                        if (kc.clientSecret) {
+                            params += "&client_secret=" + encodeURIComponent(kc.clientSecret);
+                        }
 
                         var timeLocal = new Date().getTime();
 
@@ -770,6 +777,10 @@
                 req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
                 params += '&client_id=' + encodeURIComponent(kc.clientId);
+                if (kc.clientSecret) {
+                    params += "&client_secret=" + encodeURIComponent(kc.clientSecret);
+                }
+
                 params += '&redirect_uri=' + oauth.redirectUri;
 
                 if (oauth.pkceCodeVerifier) {
@@ -899,6 +910,10 @@
                             kc.authServerUrl = config['auth-server-url'];
                             kc.realm = config['realm'];
                             kc.clientId = config['resource'];
+                            if (config['credentials']) {
+                                kc.clientSecret = config['credentials']['secret'];
+                            }
+
                             setupOidcEndoints(null);
                             promise.setSuccess();
                         } else {
@@ -914,6 +929,9 @@
                 }
 
                 kc.clientId = config.clientId;
+                if (config['credentials']) {
+                    kc.clientSecret = config['credentials']['secret'];
+                }
 
                 var oidcProvider = config['oidcProvider'];
                 if (!oidcProvider) {

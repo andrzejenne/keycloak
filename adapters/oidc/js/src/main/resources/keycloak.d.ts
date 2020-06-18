@@ -49,6 +49,11 @@ declare namespace Keycloak {
 		 * Client identifier, example: 'myapp'
 		 */
 		clientId: string;
+
+		/**
+		 * Client secret for confidential clients
+		 */
+		clientSecret?: string;
 	}
 
 	interface KeycloakInitOptions {
